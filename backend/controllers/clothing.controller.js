@@ -170,7 +170,7 @@ export const getCloth = async(req , res, next)  => {
 
         const clothId = req.params.id;
 
-        const cloth = await Clothing.findById(clothId);
+        const cloth = await Clothing.findById(clothId).populate("category");
 
         if(!cloth){
             return res.status(404).json({

@@ -2,12 +2,15 @@ import { memo } from "react"
 import type { Clothing } from "../../Types/Types"
 import {ShoppingBag, Eye} from "lucide-react"
 import { useFavoritesContext } from "../../Contexts/FavoritesContext"
+import { useNavigate } from "react-router-dom"
 
 
 
 const ClothCard = ({cloth} : {cloth : Clothing}) => {
 
     const {isFavorite, toggleFavorite} = useFavoritesContext();
+
+    const navigate = useNavigate();
 
     return(
         <div className="w-[300px] bg-white border-2 border-gray-900 rounded-[5px] group relative overflow-hidden">
@@ -71,7 +74,9 @@ const ClothCard = ({cloth} : {cloth : Clothing}) => {
                     <button className="w-[200px] bg-[#B89B72] rounded-[5px] text-[#F7F4EE]
                     text-[15px] font-[600] flex flex-row items-center justify-center h-[40px]
                     gap-3 cursor-pointer transition-transform duration-200 hover:scale-105
-                    ">
+                    "
+                    onClick={()=>navigate(`/clothDetails/${cloth._id}`)}
+                    >
                          <Eye size={20}/>
                          <p>
                             Voir les details

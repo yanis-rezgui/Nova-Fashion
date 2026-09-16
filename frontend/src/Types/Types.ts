@@ -92,21 +92,15 @@ export interface OrderItem {
 
 export interface Order {
   _id: string;
-
   firstName: string;
   lastName: string;
-
   address: string;
   phone: string;
   wilaya: string;
-
   items: OrderItem[];
-
   totalPrice: number;
   deliveryFee: number;
-
   status: OrderStatus;
-
   createdAt: string;
   updatedAt: string;
 }
@@ -120,4 +114,14 @@ export interface ClothingFilterType{
     search : string,
     discount : string,
     sort : string,
+}
+
+export interface CartItem{
+  clothing : Clothing;
+  variant : string;
+  name : string;
+  size : string;
+  color: string;
+  price: number;
+  quantity : number;
 }

@@ -131,7 +131,7 @@ const FilterComponent = () => {
                     >
                         {categories.map((c)=>{
                             return(
-                                <option value={c._id}>{c.name}</option>
+                                <option value={c._id} key={c._id}>{c.name}</option>
                             )
                         })}
 

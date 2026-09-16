@@ -8,6 +8,7 @@ import { seedClothing } from "./database/insertData.js";
 import clothingRouter from "./routes/clothing.routes.js";
 import categoriesRouter from "./routes/categories.routes.js";
 import favoritesRouter from "./routes/favorites.routes.js";
+import variantsRouter from "./routes/variants.routes.js";
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(express.urlencoded({extended : true}));
 app.use('/api/v1/clothing', clothingRouter);
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/favorites', favoritesRouter);
+app.use('/api/v1/variants', variantsRouter);
 
 app.use(errorMiddleware);
 

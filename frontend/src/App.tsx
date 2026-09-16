@@ -5,6 +5,9 @@ import { ClothingProvider } from "./Contexts/ClothingContext"
 import Boutique from "./Pages/Boutique"
 import { CategoriesProvider } from "./Contexts/CategoriesContext"
 import { FavoritesProvider } from "./Contexts/FavoritesContext"
+import { CartProvider } from "./Contexts/CartContext"
+import ClothDetails from "./Pages/ClothDetails"
+import Cart from "./Pages/Cart"
 
 
 function App() {
@@ -15,6 +18,7 @@ function App() {
        <ClothingProvider>
         <CategoriesProvider>
           <FavoritesProvider>
+            <CartProvider>
        <Routes>
         
           <Route path="/" element={
@@ -30,7 +34,22 @@ function App() {
               <Boutique/>
             </>
           }/>
+
+          <Route path="/clothDetails/:id" element={
+            <>
+            <Header/>
+            <ClothDetails/>
+            </>
+          }/>
+
+          <Route path="/panier" element={
+            <>
+              <Header/>
+              <Cart/>
+            </>
+          }/>
        </Routes>
+       </CartProvider>
        </FavoritesProvider>
        </CategoriesProvider>
        </ClothingProvider>

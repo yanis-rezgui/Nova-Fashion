@@ -1,6 +1,7 @@
 import { memo, useState } from "react"
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useCartcontext } from "../../Contexts/CartContext";
 
 const Header = () => {
 
@@ -23,6 +24,8 @@ const Header = () => {
         }
     ]
 
+    const {totalCartItems} = useCartcontext();
+
     return(
 
         <>
@@ -39,7 +42,7 @@ const Header = () => {
                 <Link to="/" style={{
                     fontSize : location.pathname === "/" ? "19px" : "17px",
                     fontWeight : location.pathname === "/" ? "600" : "500",
-                    textDecoration : location.pathname === "/" ? "underline" : "none"
+                   
                 }}>
                    Accueil
                  </Link> 
@@ -47,7 +50,7 @@ const Header = () => {
                 <Link to="/boutique" style={{
                     fontSize : location.pathname === "/boutique" ? "19px" : "17px",
                     fontWeight : location.pathname === "/boutique" ? "600" : "500",
-                    textDecoration : location.pathname === "/boutique" ? "underline" : "none"
+                   
                 }}>
                    Boutique
                 </Link>
@@ -55,21 +58,30 @@ const Header = () => {
                 <Link to="/favoris" style={{
                     fontSize : location.pathname === "/favoris" ? "19px" : "17px",
                     fontWeight : location.pathname === "/favoris" ? "600" : "500",
-                    textDecoration : location.pathname === "/favoris" ? "underline" : "none"
+                 
                 }}>
                    Favoris
                 </Link>
 
-                <Link to="/panier" >
-                   <div>
-                    <div className="relative">
-                        <i className={`fa-solid fa-cart-shopping text-[${location.pathname === "/panier" ? "20px" : "25px"}]`}></i>
-                         <span className="absolute h-[17px] w-[17px] flex justify-center items-center
-                         bg-red-600 text-white rounded-full text-[12px] font-bold right-[-5px] top-[-10px]
-                         ">0</span>
-                    </div>
-                    </div>
-                </Link>
+                <Link to="/panier">
+                  <div className="relative">
+                      <i
+                          className={`fa-solid fa-cart-shopping ${
+                              location.pathname === "/panier"
+                                  ? "text-[30px]"
+                                  : "text-[25px]"
+                          }`}
+                      ></i>
+
+                      <span
+                          className="absolute h-[17px] w-[17px] flex justify-center items-center
+                          bg-red-600 text-white rounded-full text-[12px] font-bold
+                          right-[-5px] top-[-10px]"
+                      >
+                          {totalCartItems()}
+                      </span>
+                  </div>
+              </Link>
             </nav>
 
            
@@ -141,7 +153,7 @@ const Header = () => {
               className="mt-2"
             >
               <Link
-                to="/Cart"
+                to="/panier"
                 onClick={() => setShowNav(false)}
                 className="
                   flex flex-row gap-4 items-center justify-center

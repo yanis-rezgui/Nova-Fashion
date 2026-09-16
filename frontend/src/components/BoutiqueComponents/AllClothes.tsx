@@ -11,7 +11,7 @@ const AllClothes = () => {
         <div className="flex flex-wrap justify-center items-center gap-5 w-[1000px]">
             {clothes.map((c)=>{
                 return(
-                    <ClothCard cloth={c}/>
+                    <ClothCard cloth={c} key={c._id}/>
                 )
             })}
         </div>
