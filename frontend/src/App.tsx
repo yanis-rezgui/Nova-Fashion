@@ -8,6 +8,9 @@ import { FavoritesProvider } from "./Contexts/FavoritesContext"
 import { CartProvider } from "./Contexts/CartContext"
 import ClothDetails from "./Pages/ClothDetails"
 import Cart from "./Pages/Cart"
+import Order from "./Pages/Order"
+import { OrderProvider } from "./Contexts/OrderContext"
+import Favoris from "./Pages/Favoris"
 
 
 function App() {
@@ -19,6 +22,7 @@ function App() {
         <CategoriesProvider>
           <FavoritesProvider>
             <CartProvider>
+              <OrderProvider>
        <Routes>
         
           <Route path="/" element={
@@ -48,7 +52,22 @@ function App() {
               <Cart/>
             </>
           }/>
+
+          <Route path="/order" element={
+            <>
+               <Header/>
+               <Order/>
+            </>
+          }/>
+
+          <Route path="/favoris" element={
+            <>
+              <Header/>
+              <Favoris/>
+            </>
+          }/>
        </Routes>
+       </OrderProvider>
        </CartProvider>
        </FavoritesProvider>
        </CategoriesProvider>

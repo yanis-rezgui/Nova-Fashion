@@ -105,7 +105,13 @@ export interface Order {
   updatedAt: string;
 }
 
-
+export interface PlaceOrder{
+  firstName: string;
+  lastName: string;
+  address: string;
+  phone: string;
+  wilaya: string;
+}
 export interface ClothingFilterType{
     gender : string,
     category: string,
@@ -124,4 +130,12 @@ export interface CartItem{
   color: string;
   price: number;
   quantity : number;
+}
+
+export interface User{
+  _id : string; 
+  firstName : string;
+  lastName : string;
+  email : string;
+  password? : string;
 }

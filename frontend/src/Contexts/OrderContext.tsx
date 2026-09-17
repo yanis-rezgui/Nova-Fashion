@@ -1,11 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useCartcontext } from "./CartContext";
+import type { PlaceOrder } from "../Types/Types";
 
 
 interface OrderContextType{
-    placeOrder : (firstName : string, lastName : string, address : string, wilaya : string, phone : string)=>Promise<void>;
+    placeOrder : (order : PlaceOrder)=>Promise<void>;
     loadingOrder : boolean;
     msg : string | null;
+    orderDetail : PlaceOrder;
+    setOrderDetail : (o : PlaceOrder)=>void;
+    showSuccessPop : boolean;
+    setShowSuccessPop : (b : boolean)=>void;
 }
 
 const OrderContext = createContext<OrderContextType | null>(null);
@@ -15,8 +20,26 @@ export const OrderProvider = ({children} : {children : React.ReactNode}) => {
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const {cart, resetCart} = useCartcontext();
     const [msg, setMsg] = useState<string | null>(null);
+    const [showSuccessPop, setShowSuccessPop] = useState<boolean>(false);
+    const [orderDetail, setOrderDetail] = useState<PlaceOrder>(()=>{
+        const saved = localStorage.getItem('orderDetail');
 
-    const placeOrder = async(firstName : string, lastName : string, address : string, wilaya : string, phone : string) => {
+        return saved ? JSON.parse(saved) : {
+         
+              firstName: "",
+              lastName: "",
+              address: "",
+              phone: "",
+              wilaya: "",
+           
+        }
+    });
+
+    useEffect(()=>{
+        localStorage.setItem('orderDetail', JSON.stringify(orderDetail));
+    }, [orderDetail])
+
+    const placeOrder = async(order : PlaceOrder) => {
 
         try{
 
@@ -26,8 +49,13 @@ export const OrderProvider = ({children} : {children : React.ReactNode}) => {
                 headers : {
                     "Content-Type" : "application/json"
                 },
-                body : JSON.stringify({firstName,lastName,address,wilaya,phone,items : cart})
-            })
+                body : JSON.stringify({firstName : order.firstName.trim(),
+                    lastName : order.lastName.trim(),
+                    address : order.address.trim(),
+                    wilaya : order.wilaya.trim(),
+                    phone : order.phone.trim(),
+                    items : cart})
+            });
 
             const data = await res.json();
 
@@ -37,6 +65,14 @@ export const OrderProvider = ({children} : {children : React.ReactNode}) => {
             }
 
             resetCart();
+            setOrderDetail({
+                  firstName: "",
+              lastName: "",
+              address: "",
+              phone: "",
+              wilaya: "",
+            })
+            setShowSuccessPop(true);
         }catch(err){
             console.error(err);
         }finally{
@@ -47,7 +83,11 @@ export const OrderProvider = ({children} : {children : React.ReactNode}) => {
     return <OrderContext.Provider value={{
         placeOrder,
         loadingOrder,
-        msg
+        msg,
+        orderDetail,
+        setOrderDetail,
+        showSuccessPop,
+        setShowSuccessPop
     }}>
         {children}
     </OrderContext.Provider>

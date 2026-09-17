@@ -73,7 +73,7 @@ export const placeOrder = async (req, res, next) => {
 
         for (const item of items) {
 
-            if (!item.clothing) {
+            if (!item.clothing || !item.clothing._id) {
                 return res.status(400).json({
                     success: false,
                     message: "Un article de la commande est invalide"
@@ -88,7 +88,7 @@ export const placeOrder = async (req, res, next) => {
             }
 
             if (
-                !mongoose.Types.ObjectId.isValid(item.clothing) ||
+                !mongoose.Types.ObjectId.isValid(item.clothing._id) ||
                 !mongoose.Types.ObjectId.isValid(item.variant)
             ) {
                 return res.status(400).json({
@@ -130,12 +130,6 @@ export const placeOrder = async (req, res, next) => {
         /*
          * Si le même variant apparaît plusieurs fois
          * dans le panier, on le refuse.
-         *
-         * Exemple :
-         * variant A x2
-         * variant A x3
-         *
-         * Cela devrait être simplement variant A x5.
          */
         if (quantityByVariant.size !== items.length) {
             return res.status(400).json({
@@ -144,8 +138,13 @@ export const placeOrder = async (req, res, next) => {
             });
         }
 
-        const variantIds = items.map(item => item.variant);
-        const clothingIds = items.map(item => item.clothing);
+        const variantIds = items.map(
+            item => item.variant
+        );
+
+        const clothingIds = items.map(
+            item => item.clothing._id
+        );
 
         /* =========================
            4. Transaction MongoDB
@@ -171,8 +170,14 @@ export const placeOrder = async (req, res, next) => {
 
         for (const item of items) {
 
+            /* =========================
+               Trouver la variante
+            ========================= */
+
             const variant = variants.find(
-                v => v._id.toString() === item.variant.toString()
+                v =>
+                    v._id.toString() ===
+                    item.variant.toString()
             );
 
             if (!variant) {
@@ -185,11 +190,13 @@ export const placeOrder = async (req, res, next) => {
             }
 
             /* =========================
-               Vérifier le vêtement
+               Trouver le vêtement
             ========================= */
 
             const clothing = clothings.find(
-                c => c._id.toString() === item.clothing.toString()
+                c =>
+                    c._id.toString() ===
+                    item.clothing._id.toString()
             );
 
             if (!clothing) {
@@ -202,7 +209,8 @@ export const placeOrder = async (req, res, next) => {
             }
 
             /* =========================
-               Vérifier relation variant/clothing
+               Vérifier relation
+               variant / clothing
             ========================= */
 
             if (
@@ -262,12 +270,13 @@ export const placeOrder = async (req, res, next) => {
                     ? clothing.discountPrice
                     : clothing.price;
 
-            const itemTotal = price * requestedQuantity;
+            const itemTotal =
+                price * requestedQuantity;
 
             totalPrice += itemTotal;
 
             /* =========================
-               Snapshot de la commande
+               Snapshot commande
             ========================= */
 
             orderItems.push({
@@ -301,26 +310,30 @@ export const placeOrder = async (req, res, next) => {
 
         for (const item of items) {
 
-            const updatedVariant = await Variant.findOneAndUpdate(
-                {
-                    _id: item.variant,
-                    quantity: { $gte: item.quantity }
-                },
-                {
-                    $inc: {
-                        quantity: -item.quantity
+            const updatedVariant =
+                await Variant.findOneAndUpdate(
+                    {
+                        _id: item.variant,
+                        quantity: {
+                            $gte: item.quantity
+                        }
+                    },
+                    {
+                        $inc: {
+                            quantity: -item.quantity
+                        }
+                    },
+                    {
+                        new: true,
+                        session
                     }
-                },
-                {
-                    new: true,
-                    session
-                }
-            );
+                );
 
             /*
-             * Cette vérification protège contre
-             * deux commandes simultanées.
+             * Protection contre deux commandes
+             * simultanées sur le même stock.
              */
+
             if (!updatedVariant) {
                 await session.abortTransaction();
 
@@ -373,6 +386,5 @@ export const placeOrder = async (req, res, next) => {
     } finally {
 
         session.endSession();
-
     }
 };

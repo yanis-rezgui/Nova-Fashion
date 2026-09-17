@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { useCartcontext } from "../../Contexts/CartContext"
 
 
 const CartTotal = () => {
 
     const {totalCartItems, totalPrice} = useCartcontext();
+    const navigate = useNavigate();
 
     return(
         <div className="bg-white border border-gray-300 p-5 flex
@@ -42,8 +44,10 @@ const CartTotal = () => {
 
            <button className="bg-[#B89B72] py-2 text-white font-bold border-0 mt-3
            cursor-pointer transition-opacity duration-200 hover:opacity-80 active:opacity-60
-           ">
-            Valider ma commande
+           "
+           onClick={()=>navigate("/order")}
+           >
+            Passer ma commande
            </button>
 
         </div>

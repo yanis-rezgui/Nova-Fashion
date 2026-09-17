@@ -65,7 +65,9 @@ const ClothCard = ({cloth} : {cloth : Clothing}) => {
                     <button className="w-[200px] bg-[#F7F4EE] rounded-[5px] text-[#171717]
                     text-[15px] font-[600] flex flex-row items-center justify-center h-[40px]
                     gap-3 cursor-pointer transition-transform duration-200 hover:scale-105
-                    ">
+                    "
+                    onClick={()=>navigate(`/clothDetails/${cloth._id}`)}
+                    >
                         <ShoppingBag size={20}/>
                         <p>
                             Ajouter au panier</p>
