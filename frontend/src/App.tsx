@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom"
-import Header from "./components/BaseComponents/Header"
 import Home from "./Pages/Home"
 import { ClothingProvider } from "./Contexts/ClothingContext"
 import Boutique from "./Pages/Boutique"
@@ -11,6 +10,16 @@ import Cart from "./Pages/Cart"
 import Order from "./Pages/Order"
 import { OrderProvider } from "./Contexts/OrderContext"
 import Favoris from "./Pages/Favoris"
+import { AuthProvider } from "./Contexts/AuthContext"
+import PublicRoute from "./Layouts/PublicRoute"
+import PublicLayout from "./Layouts/PublicLayout"
+import Login from "./Pages/Login"
+import AdminRoute from "./Layouts/AdminRoute"
+import AdminLayout from "./Layouts/AdminLayout"
+import Dashboard from "./AdminPages/Dashboard"
+import Clothes from "./AdminPages/Clothes"
+import { AdminClothingProvider } from "./AdminContexts/AdminClothingContext"
+import ClothAdminDetails from "./AdminPages/ClothAdminDetails"
 
 
 function App() {
@@ -23,50 +32,82 @@ function App() {
           <FavoritesProvider>
             <CartProvider>
               <OrderProvider>
+                <AuthProvider>
+                  <AdminClothingProvider>
+
        <Routes>
+
+        <Route element={
+          <PublicRoute>
+            <PublicLayout/>
+          </PublicRoute>
+        }>
+
+        
         
           <Route path="/" element={
             <>
-              <Header/>
+             
               <Home/>
             </>
           }/>
           
           <Route path="/boutique" element={
             <>
-              <Header/>
+             
               <Boutique/>
             </>
           }/>
 
           <Route path="/clothDetails/:id" element={
             <>
-            <Header/>
+           
             <ClothDetails/>
             </>
           }/>
 
           <Route path="/panier" element={
             <>
-              <Header/>
+             
               <Cart/>
             </>
           }/>
 
           <Route path="/order" element={
             <>
-               <Header/>
+              
                <Order/>
             </>
           }/>
 
           <Route path="/favoris" element={
             <>
-              <Header/>
+             
               <Favoris/>
             </>
           }/>
+
+          <Route path="/login" element={
+            <Login/>
+          }/>
+
+          </Route>
+
+          <Route path="/admin/*" element={
+            <AdminRoute>
+              <AdminLayout/>
+            </AdminRoute>
+          }>
+              <Route path="dashboard" element={
+                <Dashboard/>
+              }/>
+
+              <Route path="clothes" element={<Clothes/>}/>
+              <Route path="cloth/:id" element={<ClothAdminDetails/>}/>
+          </Route>
        </Routes>
+       </AdminClothingProvider>
+       </AuthProvider>
        </OrderProvider>
        </CartProvider>
        </FavoritesProvider>

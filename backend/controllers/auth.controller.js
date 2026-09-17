@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js";
 
 
+/*
 export const signUp = async( req , res , next) => {
 
     try{
@@ -82,7 +83,7 @@ export const signUp = async( req , res , next) => {
 }
 
 
-
+*/
 export const signIn = async(req , res , next) => {
 
     try{

@@ -26,6 +26,7 @@ export type Gender = "HOMME" | "FEMME" | "UNISEXE";
 export interface ClothingImage {
   url: string;
   publicId: string;
+  _id: string;
 }
 
 export interface Clothing {
@@ -120,6 +121,7 @@ export interface ClothingFilterType{
     search : string,
     discount : string,
     sort : string,
+    stock : string,
 }
 
 export interface CartItem{
