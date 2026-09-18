@@ -45,12 +45,14 @@ const upload = multer({
 // Routes Publiques
 // =====================================================
 clothingRouter.get("/", getClothes);
+
+clothingRouter.get("/admin", authorize, getClothesAdmin);
 clothingRouter.get("/:id", getCloth);
 
 // =====================================================
 // Routes Admin - Vêtements
 // =====================================================
-clothingRouter.get("/admin/all", authorize, getClothesAdmin);
+
 clothingRouter.post("/", authorize, upload.array("images"), createClothing);
 clothingRouter.put("/:id", authorize, upload.array("images"), updateClothing);
 clothingRouter.delete("/:id", authorize, deleteClothing);

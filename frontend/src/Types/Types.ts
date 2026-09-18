@@ -141,3 +141,82 @@ export interface User{
   email : string;
   password? : string;
 }
+
+export interface OrderFilterType {
+
+    search: string;
+
+    status: string;
+
+    tri:
+        | "all"
+        | "today"
+        | "yesterday"
+        | "last_7_days"
+        | "last_30_days"
+        | "this_month"
+        | "last_month"
+        | "custom";
+
+    startDate: string;
+
+    endDate: string;
+
+    sort:
+        | "newest"
+        | "oldest";
+}
+
+
+export interface OrderStats {
+
+    totalOrders: number;
+
+    preparationOrders: number;
+
+    shippedOrders: number;
+
+    deliveredOrders: number;
+
+    cancelledOrders: number;
+
+    revenue: number;
+
+    productsSold: number;
+}
+
+
+export type Testimonial = {
+  _id: string;
+  fullName: string;
+  message: string;
+  rating: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+
+export type Settings = {
+    _id: string;
+
+    shopName: string;
+
+    shipping: {
+        algerPrice: number;
+        outsideAlgerPrice: number;
+    };
+
+    contact: {
+        phone: string;
+        email: string;
+    };
+
+    socialLinks: {
+        name: string;
+        url: string;
+    }[];
+
+    createdAt: string;
+    updatedAt: string;
+};

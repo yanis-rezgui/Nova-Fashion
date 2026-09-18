@@ -2,8 +2,11 @@ import  { memo } from "react";
 import ClothingStats from "../AdminComponents/AdminClothingComponents/ClothingStats";
 import ToolBarAdmin from "../AdminComponents/AdminClothingComponents/ToolBarAdmin";
 import AllAdminClothes from "../AdminComponents/AdminClothingComponents/AllAdminClothes";
+import { useNavigate } from "react-router-dom";
 
 const Clothes = () => {
+
+    const navigate = useNavigate();
 
     return(
         <section className="flex flex-col w-full items-center min-h-screen bg-[#F7F4EE]">
@@ -14,7 +17,9 @@ const Clothes = () => {
                 Vos Vêtements   
                 </h1>
 
-                <button className="bg-[#B89B72] py-2 px-2 text-white font-bold border-0 mt-3
+                <button 
+                onClick={()=>navigate("/admin/addCloth")}
+                className="bg-[#B89B72] py-2 px-2 text-white font-bold border-0 mt-3
            cursor-pointer transition-opacity duration-200 hover:opacity-80 active:opacity-60
            rounded-[5px]
            ">

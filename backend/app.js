@@ -4,13 +4,15 @@ import errorMiddleware from "./middlewares/error.middleware.js";
 import connectToDatabase from "./database/mongodb.js";
 import { PORT } from "./config/env.js";
 import cors from "cors"
-import { seedClothing } from "./database/insertData.js";
+import {  seedSettings } from "./database/insertData.js";
 import clothingRouter from "./routes/clothing.routes.js";
 import categoriesRouter from "./routes/categories.routes.js";
 import favoritesRouter from "./routes/favorites.routes.js";
 import variantsRouter from "./routes/variants.routes.js";
 import orderRouter from "./routes/order.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import testimonialRouter from "./routes/testimonial.routes.js";
+import settingsRouter from "./routes/settings.routes.js";
 
 
 const app = express(); 
@@ -33,6 +35,8 @@ app.use('/api/v1/favorites', favoritesRouter);
 app.use('/api/v1/variants', variantsRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/testimonials', testimonialRouter);
+app.use('/api/v1/settings', settingsRouter);
 
 app.use(errorMiddleware);
 
@@ -42,7 +46,7 @@ const startServer = async() => {
 
         console.log("Trying connecting to database : ");
         await connectToDatabase();
-        //await seedClothing();
+       // await seedSettings();
         app.listen(PORT, ()=>{
            console.log(`App running on : http://localhost:${PORT}`);
         });

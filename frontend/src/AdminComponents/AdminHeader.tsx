@@ -3,7 +3,7 @@ import  { memo, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-import { BrickWallShield, ChartBarBig, Cog, LogOut, Shirt, User } from "lucide-react";
+import { BrickWallShield, ChartBarBig, Cog, LogOut, MessageSquareQuote, Package, Shirt, Tags, User } from "lucide-react";
 import { useAuthContext } from "../Contexts/AuthContext";
 
 
@@ -98,6 +98,38 @@ const AdminHeader = () => {
                         <Shirt size={25}/>
                         <p>Vos Vétements</p>
                     </div>
+
+                     <div
+                    onClick={()=>navigate('/admin/orders')}
+                    style={{backgroundColor : location.pathname === "/admin/orders" ? "#f3f4f6" : "",
+                           fontWeight : location.pathname === "/admin/orders" ? "600" : "400"
+                     }}
+                    className="p-3 flex flex-row items-center gap-2 text-[16px] transition-all duration-200 hover:bg-gray-100 cursor-pointer">
+                        <Package size={25}/>
+                        <p>Commandes</p>
+                    </div>
+
+                    <div
+                    onClick={()=>navigate('/admin/categories')}
+                    style={{backgroundColor : location.pathname === "/admin/categories" ? "#f3f4f6" : "",
+                           fontWeight : location.pathname === "/admin/categories" ? "600" : "400"
+                     }}
+                    className="p-3 flex flex-row items-center gap-2 text-[16px] transition-all duration-200 hover:bg-gray-100 cursor-pointer">
+                        <Tags size={25}/>
+                        <p>Categories</p>
+                    </div>
+
+
+                    <div
+                    onClick={()=>navigate('/admin/testimonials')}
+                    style={{backgroundColor : location.pathname === "/admin/testimonials" ? "#f3f4f6" : "",
+                           fontWeight : location.pathname === "/admin/testimonials" ? "600" : "400"
+                     }}
+                    className="p-3 flex flex-row items-center gap-2 text-[16px] transition-all duration-200 hover:bg-gray-100 cursor-pointer">
+                        <MessageSquareQuote size={25}/>
+                        <p>Avis Clients</p>
+                    </div>
+
 
 
 
