@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Order from "../models/order.model.js";
 import Variant from "../models/variant.model.js";
 import Clothing from "../models/clothing.model.js";
+import { notifyAdmins } from "../services/notifications.service.js";
 
 export const placeOrder = async (req, res, next) => {
     const session = await mongoose.startSession();
@@ -370,6 +371,12 @@ export const placeOrder = async (req, res, next) => {
         ========================= */
 
         await session.commitTransaction();
+
+        await notifyAdmins({
+    title: "Nouvelle commande",
+    message: `Nouvelle commande de ${order[0].firstName} ${order[0].lastName}.`,
+    type: "NEW_ORDER",
+});
 
         return res.status(201).json({
             success: true,

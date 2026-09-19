@@ -4,6 +4,7 @@ import {
     uploadImage,
     deleteImage,
 } from "../services/cloudinary.service.js";
+import { notifyAdmins } from "../services/notifications.service.js";
 
 
 // =====================================================
@@ -60,6 +61,12 @@ export const createCategory = async (req, res, next) => {
                 publicId: uploadedImage.publicId,
             },
         });
+
+        await notifyAdmins({
+    title: "Nouvelle catégorie",
+    message: `La catégorie "${newCategory.name}" a été créée.`,
+    type: "NEW_CATEGORY",
+});
 
         // =========================
         // RESPONSE

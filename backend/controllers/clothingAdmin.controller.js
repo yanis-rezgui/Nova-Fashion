@@ -6,6 +6,7 @@ import {
     uploadImage,
     deleteImage,
 } from "../services/cloudinary.service.js";
+import { notifyAdmins } from "../services/notifications.service.js";
 
 // =====================================================
 // CREATE CLOTHING (+ variantes optionnelles)
@@ -266,6 +267,12 @@ export const createClothing = async (req, res, next) => {
         }
 
         await session.commitTransaction();
+
+        await notifyAdmins({
+    title: "Nouveau vêtement",
+    message: `Le vêtement "${newClothing.name}" a été créé.`,
+    type: "NEW_CLOTHING",
+});
 
         const populatedClothing = await Clothing.findById(
             newClothing._id

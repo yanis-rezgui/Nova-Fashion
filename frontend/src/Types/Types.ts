@@ -140,6 +140,8 @@ export interface User{
   lastName : string;
   email : string;
   password? : string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface OrderFilterType {
@@ -220,3 +222,39 @@ export type Settings = {
     createdAt: string;
     updatedAt: string;
 };
+
+export type NotificationType =
+
+    | "NEW_ORDER"
+
+    | "ORDER_CANCELLED"
+
+    | "ORDER_DELIVERED"
+
+    | "NEW_CATEGORY"
+
+    | "NEW_CLOTHING";
+
+
+export interface Notification {
+    _id: string;
+    title: string;
+    message: string;
+    type: NotificationType;
+    read: boolean;
+    userId: string;
+    createdAt: string;
+}
+
+export interface NotificationsPagination {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+}
+
+export interface NotificationsStats {
+    total: number;
+    unread: number;
+    read: number;
+}

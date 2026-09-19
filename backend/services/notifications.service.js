@@ -1,4 +1,4 @@
-import prisma from "../config/prisma.js";
+import Notification from "../models/notification.model.js";
 import { getIo } from "../socket/socket.js";
 
 
@@ -8,37 +8,21 @@ export const notifyAdmins = async ({
     type
 }) => {
 
-    const admins = await prisma.user.findMany({
-        where: {
-            role: "ADMIN"
-        },
-        select: {
-            id: true
-        }
+    const notification = await Notification.create({
+        title,
+        message,
+        type
     });
 
-    if (admins.length === 0) {
-        return;
-    }
 
-    const notifications = await prisma.notification.createManyAndReturn({
-        data: admins.map((admin) => ({
-            title,
-            message,
-            type,
-            userId: admin.id
-        }))
-    });
-
-    // Envoyer les notifications en temps réel
+    // Envoyer la notification en temps réel
     const io = getIo();
 
-    notifications.forEach((notification) => {
+    io.to("admins").emit(
+        "notification:new",
+        notification.toObject()
+    );
 
-        io.to("admins").emit(
-            "notification:new",
-            notification
-        );
 
-    });
+    return notification;
 };

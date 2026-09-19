@@ -4,6 +4,7 @@ import type { User } from "../Types/Types";
 
 interface AuthContextType{
     user : User | null;
+    setUser : (u : User | null)=>void;
     token : string | null;
     signIn : (email : string, password : string)=>Promise<void>;
     loadingSignIn : boolean;
@@ -108,6 +109,7 @@ export const AuthProvider = ({children} : {children : React.ReactNode}) => {
 
     return <AuthContext.Provider value={{
         user,
+        setUser,
         token,
         signIn,
         loadingSignIn,

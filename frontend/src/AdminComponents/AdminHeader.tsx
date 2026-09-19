@@ -3,7 +3,7 @@ import  { memo, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-import { BrickWallShield, ChartBarBig, Cog, LogOut, MessageSquareQuote, Package, Shirt, Tags, User } from "lucide-react";
+import { Bell, BrickWallShield, ChartBarBig, Cog, LogOut, MessageSquareQuote, Package, Shirt, Tags, User } from "lucide-react";
 import { useAuthContext } from "../Contexts/AuthContext";
 
 
@@ -87,6 +87,17 @@ const AdminHeader = () => {
                     className="p-3 flex flex-row items-center gap-2 text-[16px] transition-all duration-200 hover:bg-gray-100 cursor-pointer">
                         <ChartBarBig size={25}/>
                         <p>Dashboard</p>
+                    </div>
+
+
+                     <div
+                    onClick={()=>navigate('/admin/notifications')}
+                    style={{backgroundColor : location.pathname === "/admin/notifications" ? "#f3f4f6" : "",
+                           fontWeight : location.pathname === "/admin/notifications" ? "600" : "400"
+                     }}
+                    className="p-3 flex flex-row items-center gap-2 text-[16px] transition-all duration-200 hover:bg-gray-100 cursor-pointer">
+                        <Bell size={25}/>
+                        <p>Notifications</p>
                     </div>
 
                     <div

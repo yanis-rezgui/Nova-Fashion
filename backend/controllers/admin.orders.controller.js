@@ -1,4 +1,5 @@
 import Order from "../models/order.model.js";
+import { notifyAdmins } from "../services/notifications.service.js";
 
 export const getAllOrders = async (req, res, next) => {
     try {
@@ -488,8 +489,32 @@ export const updateOrderStatus = async(req , res , next) => {
         });
       }
 
+      const previousStatus = order.status;
+      
       order.status = status;
       await order.save();
+
+if (
+    previousStatus !== "LIVREE" &&
+    status === "LIVREE"
+) {
+    await notifyAdmins({
+        title: "Commande livrée",
+        message: `La commande de ${order.firstName} ${order.lastName} a été livrée.`,
+        type: "ORDER_DELIVERED",
+    });
+}
+
+if (
+    previousStatus !== "ANNULEE" &&
+    status === "ANNULEE"
+) {
+    await notifyAdmins({
+        title: "Commande annulée",
+        message: `La commande de ${order.firstName} ${order.lastName} a été annulée.`,
+        type: "ORDER_CANCELLED",
+    });
+}
 
       return res.status(200).json({
         success : true,

@@ -31,6 +31,10 @@ import Testimonials from "./AdminPages/Testimonials"
 import { SettingsProvider } from "./Contexts/SettingsContext"
 import { AdminSettingsProvider } from "./AdminContexts/AdminSettingsContext"
 import General from "./AdminPages/General"
+import { AdminUsersProvider } from "./AdminContexts/AdminUsersContext"
+import AdminProfile from "./AdminPages/AdminProfile"
+import { NotificationsProvider } from "./AdminContexts/NotificationsContext"
+import Notifications from "./AdminPages/Notifications"
 
 
 function App() {
@@ -51,6 +55,8 @@ function App() {
                           <AdminTestimonialsProvider>
                             <SettingsProvider>
                               <AdminSettingsProvider>
+                                <AdminUsersProvider>
+                                  <NotificationsProvider>
 
        <Routes>
 
@@ -126,8 +132,13 @@ function App() {
               <Route path="categories" element={<Categories/>}/>
               <Route path="testimonials" element={<Testimonials/>}/>
               <Route path="general" element={<General/>}/>
+              <Route path="profile" element={<AdminProfile/>}/>
+
+              <Route path="notifications" element={<Notifications/>}/>
           </Route>
        </Routes>
+       </NotificationsProvider>
+       </AdminUsersProvider>
        </AdminSettingsProvider>
        </SettingsProvider>
        </AdminTestimonialsProvider>
