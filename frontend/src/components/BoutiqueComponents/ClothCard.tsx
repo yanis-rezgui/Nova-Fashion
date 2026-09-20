@@ -16,9 +16,11 @@ const ClothCard = ({cloth} : {cloth : Clothing}) => {
         <div className="w-[300px] bg-white border-2 border-gray-900 rounded-[5px] group relative overflow-hidden">
 
               
-             <img src={cloth.images[0].url} alt="cloth_image" 
-             className="w-full h-[200px] object-contain rounded-t-[5px]"
-             />
+             <img
+    src={cloth.images?.[0]?.url || "/placeholder.jpg"}
+    alt={cloth.name}
+    className="w-full h-[200px] object-contain rounded-t-[5px]"
+/>
              <div className="flex flex-col gap-1 p-2">
                 <p className="text-[16px] text-gray-800">
                     {cloth.category.name}
