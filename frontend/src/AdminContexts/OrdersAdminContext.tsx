@@ -1,5 +1,6 @@
 import {
     createContext,
+    useCallback,
     useContext,
     useEffect,
     useState,
@@ -12,6 +13,7 @@ import type {
 } from "../Types/Types";
 
 import { useAuthContext } from "../Contexts/AuthContext";
+import { socket } from "../socket/socket";
 
 
 interface OrdersAdminContextType {
@@ -180,244 +182,218 @@ export const OrdersAdminProvider = ({
     // Get Orders
     // =================================================
 
-    const getOrders = async () => {
+const getOrders = useCallback(async () => {
 
-        if (!token) return;
+    if (!token) return;
 
-        try {
+    try {
 
-            setLoadingOrders(true);
+        setLoadingOrders(true);
 
+        const params = new URLSearchParams();
 
-            // -----------------------------------------
-            // Query params
-            // -----------------------------------------
+        params.append(
+            "page",
+            page.toString()
+        );
 
-            const params =
-                new URLSearchParams();
+        params.append(
+            "limit",
+            limit.toString()
+        );
 
+        if (filterOrders.search?.trim()) {
 
             params.append(
-                "page",
-                page.toString()
+                "search",
+                filterOrders.search.trim()
             );
 
-
-            params.append(
-                "limit",
-                limit.toString()
-            );
-
-
-            // -----------------------------------------
-            // Search
-            // -----------------------------------------
-
-            if (
-                filterOrders.search?.trim()
-            ) {
-
-                params.append(
-                    "search",
-                    filterOrders.search.trim()
-                );
-            }
-
-
-            // -----------------------------------------
-            // Status
-            // -----------------------------------------
-
-            if (
-                filterOrders.status?.trim()
-            ) {
-
-                params.append(
-                    "status",
-                    filterOrders.status.trim()
-                );
-            }
-
-
-            // -----------------------------------------
-            // Date filter
-            // -----------------------------------------
-
-            if (
-                filterOrders.tri?.trim()
-            ) {
-
-                params.append(
-                    "tri",
-                    filterOrders.tri
-                );
-            }
-
-
-            // -----------------------------------------
-            // Custom date
-            // -----------------------------------------
-
-            if (
-                filterOrders.tri === "custom"
-            ) {
-
-                if (
-                    filterOrders.startDate
-                ) {
-
-                    params.append(
-                        "startDate",
-                        filterOrders.startDate
-                    );
-                }
-
-
-                if (
-                    filterOrders.endDate
-                ) {
-
-                    params.append(
-                        "endDate",
-                        filterOrders.endDate
-                    );
-                }
-            }
-
-
-            // -----------------------------------------
-            // Sort
-            // -----------------------------------------
-
-            if (
-                filterOrders.sort?.trim()
-            ) {
-
-                params.append(
-                    "sort",
-                    filterOrders.sort
-                );
-            }
-
-
-            // -----------------------------------------
-            // Request
-            // -----------------------------------------
-
-            const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/v1/orders?${params.toString()}`,
-                {
-                    method: "GET",
-
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`,
-                    },
-                }
-            );
-
-
-            const data =
-                await res.json();
-
-
-            // -----------------------------------------
-            // Error
-            // -----------------------------------------
-
-            if (!res.ok) {
-
-                throw new Error(
-                    data.error ||
-                    data.message ||
-                    "Error in getting orders"
-                );
-            }
-
-
-            // -----------------------------------------
-            // Orders
-            // -----------------------------------------
-
-            setOrders(
-                data.data ?? []
-            );
-
-
-            // -----------------------------------------
-            // Pagination
-            // -----------------------------------------
-
-            setTotal(
-                data.pagination?.total ?? 0
-            );
-
-
-            setTotalPages(
-                data.pagination?.totalPages ?? 0
-            );
-
-
-            // -----------------------------------------
-            // Statistics
-            // -----------------------------------------
-
-            setStats({
-
-                totalOrders:
-                    data.stats?.totalOrders ?? 0,
-
-                preparationOrders:
-                    data.stats?.preparationOrders ?? 0,
-
-                shippedOrders:
-                    data.stats?.shippedOrders ?? 0,
-
-                deliveredOrders:
-                    data.stats?.deliveredOrders ?? 0,
-
-                cancelledOrders:
-                    data.stats?.cancelledOrders ?? 0,
-
-                revenue:
-                    data.stats?.revenue ?? 0,
-
-                productsSold:
-                    data.stats?.productsSold ?? 0,
-
-            });
-
-
-        } catch (err) {
-
-            console.error(
-                "Error getting admin orders:",
-                err
-            );
-
-        } finally {
-
-            setLoadingOrders(false);
         }
-    };
+
+        if (filterOrders.status?.trim()) {
+
+            params.append(
+                "status",
+                filterOrders.status.trim()
+            );
+
+        }
+
+        if (filterOrders.tri?.trim()) {
+
+            params.append(
+                "tri",
+                filterOrders.tri
+            );
+
+        }
+
+        if (
+            filterOrders.tri === "custom"
+        ) {
+
+            if (filterOrders.startDate) {
+
+                params.append(
+                    "startDate",
+                    filterOrders.startDate
+                );
+
+            }
+
+            if (filterOrders.endDate) {
+
+                params.append(
+                    "endDate",
+                    filterOrders.endDate
+                );
+
+            }
+
+        }
+
+        if (filterOrders.sort?.trim()) {
+
+            params.append(
+                "sort",
+                filterOrders.sort
+            );
+
+        }
+
+        const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/v1/orders?${params.toString()}`,
+            {
+                method: "GET",
+
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`,
+                },
+            }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Error in getting orders"
+            );
+
+        }
+
+        setOrders(
+            data.data ?? []
+        );
+
+        setTotal(
+            data.pagination?.total ?? 0
+        );
+
+        setTotalPages(
+            data.pagination?.totalPages ?? 0
+        );
+
+        setStats({
+
+            totalOrders:
+                data.stats?.totalOrders ?? 0,
+
+            preparationOrders:
+                data.stats?.preparationOrders ?? 0,
+
+            shippedOrders:
+                data.stats?.shippedOrders ?? 0,
+
+            deliveredOrders:
+                data.stats?.deliveredOrders ?? 0,
+
+            cancelledOrders:
+                data.stats?.cancelledOrders ?? 0,
+
+            revenue:
+                data.stats?.revenue ?? 0,
+
+            productsSold:
+                data.stats?.productsSold ?? 0,
+
+        });
+
+    } catch (err) {
+
+        console.error(
+            "Error getting admin orders:",
+            err
+        );
+
+    } finally {
+
+        setLoadingOrders(false);
+
+    }
+
+}, [
+    token,
+    page,
+    limit,
+    filterOrders,
+]);
 
 
     // =================================================
     // Fetch when filters/pagination change
     // =================================================
 
-    useEffect(() => {
+   useEffect(() => {
 
-        if (!token) return;
+    if (!token) return;
+
+    getOrders();
+
+}, [
+    token,
+    filterOrders,
+    page,
+    limit,
+]);
+
+
+     useEffect(() => {
+
+    if (!token) return;
+
+    const handleNewOrder = () => {
+
+        console.log(
+            "🛍️ Nouvelle commande reçue en temps réel"
+        );
 
         getOrders();
 
-    }, [
-        token,
-        filterOrders,
-        page,
-        limit,
-    ]);
+    };
+
+    socket.on(
+        "order:created",
+        handleNewOrder
+    );
+
+    return () => {
+
+        socket.off(
+            "order:created",
+            handleNewOrder
+        );
+
+    };
+
+}, [
+    token,
+    getOrders,
+]);
 
 
     // =================================================

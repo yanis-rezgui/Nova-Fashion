@@ -5,13 +5,14 @@ import { useCartcontext } from "../../Contexts/CartContext"
 
 const CartItem = ({item} : {item : CartItem}) => {
 
+  
     const {increaseQuantity, decreaseQuantity, deleteItem} = useCartcontext();
 
     return(
         <div className="flex flex-row gap-5 items-start p-5 border-b border-b-gray-300 relative
         max-[600px]:flex-col max-[600px]:items-center
         ">
-          <img src={item.clothing.images[0].url} alt="cloth_image" 
+          <img src={item.clothing.images?.[0]?.url || "/placeholder.jpg"} alt="cloth_image" 
           className="w-[200px] h-[200px] object-contain"
           />
           <div className="flex flex-col ">

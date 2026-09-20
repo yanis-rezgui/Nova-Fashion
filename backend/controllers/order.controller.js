@@ -3,6 +3,7 @@ import Order from "../models/order.model.js";
 import Variant from "../models/variant.model.js";
 import Clothing from "../models/clothing.model.js";
 import { notifyAdmins } from "../services/notifications.service.js";
+import { getIo } from "../socket/socket.js";
 
 export const placeOrder = async (req, res, next) => {
     const session = await mongoose.startSession();
@@ -371,6 +372,14 @@ export const placeOrder = async (req, res, next) => {
         ========================= */
 
         await session.commitTransaction();
+
+        const createdOrder = order[0];
+
+        const io = getIo();
+
+        io.to("admins").emit("order:created", {
+            order: createdOrder,
+        });
 
         await notifyAdmins({
     title: "Nouvelle commande",
