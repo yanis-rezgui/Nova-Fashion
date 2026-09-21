@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -10,6 +11,7 @@ type Slide = {
   description: string;
   image: string;
   alt: string;
+  cta : string;
 };
 
 // 👉 Remplace les images par les tiennes (tons beige / crème / noir / marron)
@@ -21,6 +23,7 @@ const SLIDES: Slide[] = [
     description: "Des pièces pensées pour vous accompagner avec style.",
     image: "https://res.cloudinary.com/dub4fhabm/image/upload/v1789386195/pullCategory_w9sclq.jpg", // look complet / modèle, ambiance beige
     alt: "Look complet Nova Fashion dans une ambiance beige",
+    cta : "Commandez Maintenant."
   },
   {
     id: "confection",
@@ -29,6 +32,7 @@ const SLIDES: Slide[] = [
     description: "Des coupes soignées jusque dans les moindres détails.",
     image: "https://res.cloudinary.com/dub4fhabm/image/upload/v1789385155/pull4_pxpocu.jpg", // gros plan couture / texture
     alt: "Gros plan sur la couture et la texture d'un vêtement",
+    cta : "Découvrez nos catégories"
   },
   {
     id: "qualite",
@@ -38,6 +42,7 @@ const SLIDES: Slide[] = [
       "Parce que chaque pièce mérite de trouver sa place dans votre garde-robe.",
     image: "https://res.cloudinary.com/dub4fhabm/image/upload/v1789385153/pull3_otvqik.jpg", // sélection de vêtements / boutique
     alt: "Sélection de vêtements présentés en boutique",
+    cta : "Consultez la boutique"
   },
 ];
 
@@ -47,19 +52,25 @@ const HeroSlide = () => {
     const [index, setIndex] = useState<number>(0);
 
     const slide = SLIDES[index];
+    const navigate = useNavigate();
 
     return(
-        <div className="w-[600px] h-[400px] bg-white shadow-2xl rounded-[10px] p-8 flex flex-col relative">
+        <div className="w-[600px] h-[400px] bg-white shadow-2xl rounded-[10px] p-8 flex flex-col relative
+        max-[620px]:w-[320px] max-[620px]:h-[600px]
+        ">
 
-             <div className="flex flex-row items-center gap-5 justify-center">
+             <div className="flex flex-row items-center gap-5 justify-center max-[620px]:flex-col
+             max-[620px]:gap-10
+             ">
 
-                <div className="flex flex-col gap-5">
-                    <h1 className="text-[#171717] font-bold text-[2.2em]">
+                <div className="flex flex-col gap-3 max-[620px]:justify-center max-[620px]:items-center">
+                    <h1 className="text-[#171717] font-bold text-[2.2em] max-[620px]:text-[1.8em]">
                         {slide.kicker}
                     </h1>
 
                     <div className="flex flex-wrap gap-2
                     text-[#B89B72] text-[1.7em] leading-6 font-[600]
+                    max-[620px]:justify-center 
                     ">
                         {slide.title.map((t)=>{
                             return(
@@ -69,9 +80,20 @@ const HeroSlide = () => {
                             )
                         })}
                     </div>
-                    <p className="text-[#171717]  text-[1.1em]">
+                    <p className="text-[#171717]  text-[1.1em] max-[620px]:text-center">
                         {slide.description}
                     </p>
+
+                    <button className="w-[210px] text-white text-[15px]
+                    bg-[#171717] py-2 rounded-[10px] font-bold
+                    cursor-pointer transition-opacity duration-200 
+
+                    hover:opacity-80 active:opacity-60
+                    "
+                    onClick={()=>navigate("/boutique")}
+                    >
+                        {slide.cta}
+                    </button>
                 </div>
 
                 <img src={slide.image} alt={slide.alt} 
