@@ -44,6 +44,12 @@ app.use(express.urlencoded({extended : true}));
 
 app.use('/api/v1', globalLimiter);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+  });
+});
+
 app.use('/api/v1/clothing', clothingRouter);
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/favorites', favoritesRouter);

@@ -42,6 +42,7 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy"
 import MentionsLegales from "./Pages/MentionsLegales"
 import ScrollToTop from "./ScrollToTop"
 import { AdminDashboardProvider } from "./AdminContexts/AdminDashboardContext"
+import NotFound from "./NotFound"
 
 
 function App() {
@@ -152,7 +153,10 @@ function App() {
 
               <Route path="notifications" element={<Notifications/>}/>
               <Route path="hero" element={<Hero/>}/>
+              <Route path="*" element={<NotFound />} />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
        </Routes>
        </AdminDashboardProvider>
        </AccueilClothingProvider>

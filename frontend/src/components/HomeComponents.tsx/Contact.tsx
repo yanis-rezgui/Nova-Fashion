@@ -60,7 +60,7 @@ const Contact = () => {
                         <span>{settings?.contact?.email}</span>
                      </div>
 
-                     <div className="flex flex-wrap items-center mt-2">
+                     <div className="flex flex-wrap items-center mt-2 gap-5">
                         {settings?.socialLinks.map((s)=>{
                             return(
                                 <a href={s.url} target="_blank">

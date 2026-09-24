@@ -352,7 +352,7 @@ const AllAdminClothes = () => {
 
     return (
         <div className="flex flex-col gap-5 w-full px-70 max-[1300px]:px-40
-        max-[1100px]:px-20 max-[1000px]:px-5 mt-10">
+        max-[1100px]:px-20 max-[1000px]:px-5 mt-10 mb-15">
 
             {/* Modal de confirmation de suppression */}
             <AnimatePresence>
@@ -406,7 +406,7 @@ const AllAdminClothes = () => {
 
             {!loadingClothes && clothes.length > 0 && (
                 <div className="bg-white rounded-[10px] shadow-2xl overflow-x-auto max-[800px]:hidden">
-                    <table className="w-full min-w-[700px] border-collapse">
+                    <table className="w-full min-w-[700px] border-collapse ">
                         <thead>
                             <tr className="bg-[#F7F4EE] border-b border-b-gray-300">
                                 <th className="p-3 text-left text-[13px] font-[700] text-[#171717]">
