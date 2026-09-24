@@ -6,6 +6,7 @@ import AideCommande from "../components/CartComponents/AideCommande";
 import { useCartcontext } from "../Contexts/CartContext";
 import ResetCartPop from "../components/CartComponents/ResetCartPop";
 import { Link } from "react-router-dom";
+import Recommendations from "../components/HomeComponents.tsx/Recommendations";
 
 
 
@@ -69,6 +70,8 @@ const Cart = () => {
           {resetCartPop && <ResetCartPop setShowDeletePop={setResetCartPop}/>}
           </>
 }
+
+        <Recommendations title="Complétez votre look"/>
         </section>
     )
 }

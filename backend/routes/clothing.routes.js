@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 
-import { getCloth, getClothes } from "../controllers/clothing.controller.js";
+import { getAccueilClothes, getCloth, getClothes, getRecommendedClothes } from "../controllers/clothing.controller.js";
 import {
   createClothing,
   updateClothing,
@@ -45,6 +45,10 @@ const upload = multer({
 // Routes Publiques
 // =====================================================
 clothingRouter.get("/", getClothes);
+
+clothingRouter.get('/accueil', getAccueilClothes);
+
+clothingRouter.get("/recommendations", getRecommendedClothes);
 
 clothingRouter.get("/admin", authorize, getClothesAdmin);
 clothingRouter.get("/:id", getCloth);

@@ -7,7 +7,7 @@ const OrderInfo = () => {
     const {orderDetail, setOrderDetail} = useOrderContext();
     return(
         <div className="bg-white border border-gray-300 p-5 flex flex-col gap-4 w-[800px]
-        rounded-[5px]
+        rounded-[5px] max-[1300px]:w-[500px] max-[550px]:w-[320px]
         ">
            <h3 className="text-[1.3em] font-[600]">
             Détails de facturation

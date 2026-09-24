@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom"
 import  { memo } from "react"
 import Header from "../components/BaseComponents/Header";
+import Footer from "../components/HomeComponents.tsx/Footer";
 
 
 const PublicLayout = () => {
@@ -13,7 +14,7 @@ const PublicLayout = () => {
           <main className="pt-[80px]  w-full">
             <Outlet/>
           </main>
-        
+          <Footer/>
         </>
     ) 
 }

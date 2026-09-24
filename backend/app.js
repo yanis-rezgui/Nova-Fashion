@@ -17,6 +17,9 @@ import userRouter from "./routes/user.router.js";
 import {createServer} from "http"
 import { initializeSocket } from "./socket/socket.js";
 import notificationsRouter from "./routes/notifications.routes.js";
+import heroRouter from "./routes/hero.routes.js";
+import dashboardRouter from "./routes/dashboard.routes.js";
+import { authLimiter, globalLimiter } from "./middlewares/rateLimiter.js";
 
 
 const app = express(); 
@@ -34,8 +37,12 @@ app.use(cors({
     credentials : true
 }));
 
+app.set("trust proxy", 1);
+
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
+
+app.use('/api/v1', globalLimiter);
 
 app.use('/api/v1/clothing', clothingRouter);
 app.use('/api/v1/categories', categoriesRouter);
@@ -47,6 +54,8 @@ app.use('/api/v1/testimonials', testimonialRouter);
 app.use('/api/v1/settings', settingsRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/notifications', notificationsRouter);
+app.use('/api/v1/hero', heroRouter);
+app.use('/api/v1/dashboard', dashboardRouter);
 
 app.use(errorMiddleware);
 

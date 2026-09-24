@@ -10,7 +10,7 @@ const AllClothes = () => {
 
     return(     
         
-        <div className="flex flex-wrap justify-center  items-center gap-5 w-[900px] max-[1300px]:w-[600px]">
+        <div className="flex flex-wrap justify-center  items-center gap-5 w-[950px] max-[1300px]:w-[600px]">
             {clothes.length === 0 
             
             ? 

@@ -28,7 +28,7 @@ const Notifications = () => {
 
     return (
         <MotionConfig reducedMotion="user">
-            <section className="flex min-h-screen w-full flex-col items-center bg-neutral-50 px-5 pb-20 pt-[90px]">
+            <section className="flex min-h-screen w-full flex-col items-center bg-[#F7F4EE] px-5 pb-20 pt-[90px]">
 
                 {/* En-tête */}
                 <header className="text-center">

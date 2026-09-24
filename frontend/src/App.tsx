@@ -35,6 +35,13 @@ import { AdminUsersProvider } from "./AdminContexts/AdminUsersContext"
 import AdminProfile from "./AdminPages/AdminProfile"
 import { NotificationsProvider } from "./AdminContexts/NotificationsContext"
 import Notifications from "./AdminPages/Notifications"
+import Hero from "./AdminPages/Hero"
+import { HeroProvider } from "./Contexts/HeroContext"
+import { AccueilClothingProvider } from "./Contexts/AccueilClothinContext"
+import PrivacyPolicy from "./Pages/PrivacyPolicy"
+import MentionsLegales from "./Pages/MentionsLegales"
+import ScrollToTop from "./ScrollToTop"
+import { AdminDashboardProvider } from "./AdminContexts/AdminDashboardContext"
 
 
 function App() {
@@ -57,6 +64,11 @@ function App() {
                               <AdminSettingsProvider>
                                 <AdminUsersProvider>
                                   <NotificationsProvider>
+                                    <HeroProvider>
+                                      <AccueilClothingProvider>
+                                        <AdminDashboardProvider>
+
+                                        <ScrollToTop/>
 
        <Routes>
 
@@ -84,7 +96,6 @@ function App() {
 
           <Route path="/clothDetails/:id" element={
             <>
-           
             <ClothDetails/>
             </>
           }/>
@@ -114,6 +125,11 @@ function App() {
             <Login/>
           }/>
 
+           <Route path="/privacy" element={
+            <PrivacyPolicy/>
+           }/>
+
+           <Route path="/mentions" element={<MentionsLegales/>}/>
           </Route>
 
           <Route path="/admin/*" element={
@@ -135,8 +151,12 @@ function App() {
               <Route path="profile" element={<AdminProfile/>}/>
 
               <Route path="notifications" element={<Notifications/>}/>
+              <Route path="hero" element={<Hero/>}/>
           </Route>
        </Routes>
+       </AdminDashboardProvider>
+       </AccueilClothingProvider>
+       </HeroProvider>
        </NotificationsProvider>
        </AdminUsersProvider>
        </AdminSettingsProvider>

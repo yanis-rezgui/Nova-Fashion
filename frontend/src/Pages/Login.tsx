@@ -28,7 +28,7 @@ const Login = () => {
         <section className="flex flex-col w-full items-center min-h-screen bg-[#F7F4EE]">
 
              <div className="bg-white w-[500px] rounded-[10px] shadow-2xl mt-15
-             flex flex-col justify-center items-center p-5
+             flex flex-col justify-center items-center p-5 max-[500px]:w-[320px]
              ">
                <h2
                className="text-[2em] font-bold"

@@ -8,7 +8,7 @@ export const uploadImage = (file) => {
         const stream = cloudinary.uploader.upload_stream(
 
             {
-                folder: "Immob"
+                folder: "Nova"
             },
 
             (error, result) => {

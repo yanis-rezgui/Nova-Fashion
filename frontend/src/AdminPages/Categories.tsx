@@ -33,7 +33,7 @@ const Categories = () => {
                 + Ajouter une catégorie
              </button>
 
-            <div className="flex flex-wrap items-center justify-center gap-5 mt-10 mb-10">
+            <div className="flex flex-wrap items-center justify-center gap-5 mt-10 mb-10 px-10">
              {categories.map((c)=>{
                 return(
                     <CategorieCard categorie={c} key={c._id}/>

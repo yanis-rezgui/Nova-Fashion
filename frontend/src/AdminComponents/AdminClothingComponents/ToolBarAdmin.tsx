@@ -99,7 +99,7 @@ const ToolBarAdmin = () => {
     return (
         <div className="
             pt-5
-            border-t border-t-gray-300
+            border-t bordertype-t-gray-300
             flex flex-row justify-between items-center w-full mt-5 px-70
             max-[800px]:flex-col
             max-[800px]:justify-center

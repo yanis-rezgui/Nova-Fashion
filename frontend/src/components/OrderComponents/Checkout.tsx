@@ -1,11 +1,13 @@
 import { memo } from "react"
 import { useCartcontext } from "../../Contexts/CartContext";
 import { useOrderContext } from "../../Contexts/OrderContext";
+import { useSettingsContext } from "../../Contexts/SettingsContext";
 
 const Checkout = () => {
 
     const {cart, totalPrice} = useCartcontext();
     const {placeOrder, orderDetail, loadingOrder} = useOrderContext();
+    const {settings} = useSettingsContext();
 
     const handlePlaceOrder = async() => {
 
@@ -35,7 +37,9 @@ const Checkout = () => {
     }
 
     return(
-        <div className="w-[400px] bg-white border border-gray-300 rounded-[5px] p-5">
+        <div className="w-[400px] bg-white border border-gray-300 rounded-[5px] p-5
+        max-[1000px]:w-[320px]
+        ">
            
            <h3 className="font-bold text-[18px] py-2">
             Votre commande
@@ -90,7 +94,7 @@ const Checkout = () => {
                     Sur Alger
                 </p>
                 <p className="text-[1.1em] font-[600]">
-                    400 DA
+                    {settings?.shipping.algerPrice} DA
                 </p>
             </div>
 
@@ -99,7 +103,7 @@ const Checkout = () => {
                     Hors Alger
                 </p>
                 <p className="text-[1.1em] font-[600]">
-                    900 DA
+                    {settings?.shipping.outsideAlgerPrice} DA
                 </p>
             </div>
            </div>

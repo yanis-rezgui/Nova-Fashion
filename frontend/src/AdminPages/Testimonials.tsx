@@ -36,7 +36,7 @@ const Testimonials = () => {
                 + Ajouter un Avis
              </button>
 
-            <div className="flex flex-wrap gap-5 justify-center items-center gap-5 mt-10 mb-10">
+            <div className="flex flex-wrap gap-5 justify-center items-start gap-5 mt-10 mb-10">
              {testimonials.map((t)=>{
                 return(
                     <TestimonialCard testimonial={t} key={t._id}/>

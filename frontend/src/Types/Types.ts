@@ -258,3 +258,80 @@ export interface NotificationsStats {
     unread: number;
     read: number;
 }
+
+
+
+/* =========================
+   HERO
+========================= */
+
+export interface HeroImage {
+  url: string;
+  publicId: string;
+}
+
+export interface HeroSlide {
+  _id: string;
+  kicker: string;
+  title: string;
+  description: string;
+  cta: string;
+  image: HeroImage;
+}
+
+export interface HeroFeaturedProduct {
+  _id: string;
+  name: string;
+  category: string;
+  price: number;
+  image: HeroImage;
+}
+
+export interface Hero {
+  _id: string;
+  slides: HeroSlide[];
+  featuredProducts: HeroFeaturedProduct[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+
+/* =========================
+   HERO - ADMIN INPUTS
+========================= */
+
+// Champs texte d'un slide (utilisés à la création ET à la mise à jour)
+export interface HeroSlideInput {
+  _id?: string;           // présent uniquement en update, pour un slide existant
+  kicker: string;
+  title: string;
+  description: string;
+  cta: string;
+  image?: HeroImage;      // image existante conservée (update uniquement, si pas de nouveau fichier)
+}
+
+export interface HeroFeaturedProductInput {
+  _id?: string;
+  name: string;
+  category: string;
+  price: number;
+  image?: HeroImage;
+}
+
+// Payload pour la création : chaque slide/produit doit avoir un fichier image au même index
+export interface CreateHeroPayload {
+  slides: Omit<HeroSlideInput, "_id" | "image">[];
+  featuredProducts: Omit<HeroFeaturedProductInput, "_id" | "image">[];
+  slideImages: File[];             // même longueur que slides
+  featuredProductImages: File[];   // toujours 2 fichiers
+}
+
+// Payload pour la mise à jour : les fichiers sont optionnels, reliés par index
+export interface UpdateHeroPayload {
+  slides: HeroSlideInput[];
+  featuredProducts: HeroFeaturedProductInput[];
+  slideImages: File[];                    // uniquement les NOUVELLES images
+  slideImageIndexes: number[];            // slideImages[i] remplace slides[slideImageIndexes[i]]
+  featuredProductImages: File[];          // uniquement les NOUVELLES images
+  featuredProductImageIndexes: number[];  // idem pour featuredProducts
+}

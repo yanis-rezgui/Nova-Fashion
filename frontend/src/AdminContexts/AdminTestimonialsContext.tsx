@@ -229,7 +229,7 @@ export const AdminTestimonialsProvider = ({children} : {children : React.ReactNo
 
     useEffect(()=>{
        if(token) getTestimonials();
-    }, []);
+    }, [token]);
 
     useEffect(()=>{
         getActiveTestimonials();

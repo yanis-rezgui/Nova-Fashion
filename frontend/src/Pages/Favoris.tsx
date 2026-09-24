@@ -4,6 +4,7 @@ import { useFavoritesContext } from "../Contexts/FavoritesContext";
 import ClothCard from "../components/BoutiqueComponents/ClothCard";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import Recommendations from "../components/HomeComponents.tsx/Recommendations";
 
 
 
@@ -58,6 +59,8 @@ const Favoris = () => {
                </div>
              </>
            }
+
+           <Recommendations title="Vous pourriez aussi aimer"/>
         </section>
     )
 }
